@@ -1,0 +1,42 @@
+@import '../../variables.scss';
+
+$selector: '.SD_Button';
+
+#{$selector} {
+  transition: background-color $theme-transition-timing $theme-transition-easing;
+  background-color: $theme-accent-primary-background;
+  color: $theme-accent-primary-foreground;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  padding-right: 24px;
+  padding-left: 24px;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  outline: none;
+  height: 48px;
+  border: 0;
+  &:hover,
+  &:focus {
+    background-color: $theme-accent-primary-background-active;
+  }
+  &.size-small,
+  &.size-sm {
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 32px;
+  }
+  &.size-large,
+  &.size-lg {
+    padding-right: 32px;
+    padding-left: 32px;
+    height: 64px;
+  }
+  &[disabled] {
+    background-color: #EFEFEF;
+    border-color: #CACACA;
+    cursor: not-allowed;
+  }
+}

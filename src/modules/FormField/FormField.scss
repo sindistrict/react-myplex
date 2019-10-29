@@ -1,0 +1,63 @@
+@import '../../variables.scss';
+
+$selector: '.SD_FormField';
+
+#{$selector} {
+  transition: border-color $theme-transition-timing $theme-transition-easing;
+  border: 2px solid $theme-element-border-color;
+  background-color: #FFFFFF;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 16px;
+  outline: none;
+  height: 48px;
+  &_Size_small,
+  &_Size_sm {
+    padding-right: 8px;
+    padding-left: 8px;
+    height: 32px;
+  }
+  &_Size_large,
+  &_Size_lg {
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 64px;
+  }
+  &_Wrapper,
+  &_Wrapper > * {
+    margin-bottom: 10px;
+    max-width: 100%;
+    float: left;
+    clear: both;
+  }
+  &_Wrapper,
+  &_Wrapper > #{$selector} {
+    width: 100%;
+  }
+  &_Wrapper > label {
+    transition: color $theme-transition-timing $theme-transition-easing;
+    color: darken($theme-element-border-color, 25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 11px;
+  }
+  &_Wrapper:focus-within {
+    > label {
+      color: $theme-element-border-color-active;
+    }
+    > #{$selector} {
+      border-color: $theme-element-border-color-active;
+    }
+  }
+  &[type="password"] {
+    letter-spacing: 2px;
+  }
+  &[disabled] {
+    background-color: #EFEFEF;
+    border-color: #CACACA;
+    cursor: not-allowed;
+  }
+}
