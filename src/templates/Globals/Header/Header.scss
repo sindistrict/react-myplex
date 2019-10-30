@@ -1,0 +1,15 @@
+@import '../../../variables.scss';
+
+$selector: '.SD_Header';
+
+#{$selector} {
+  box-shadow: 0 1px 0 0 rgba(235, 237, 242, 0.5);
+  background-color: $theme-background-color;
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  display: flex;
+  height: 72px;
+  width: 100%;
+  top: 0;
+}

@@ -6,6 +6,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
+/** 
+ * Import universal styles.
+ */
+
+import './universal.scss'
+
+
 /**
  * Import component dependencies.
  */

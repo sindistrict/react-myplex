@@ -10,13 +10,7 @@ import React from 'react'
  */
 
 import Wrapper from '../../modules/Wrapper/Wrapper'
-
-
-/**
- * Import helper functions.
- */
-
-import {FetchServers} from '../../helpers/Plex'
+import Header from '../../templates/Globals/Header/Header'
 
 
 /** 
@@ -34,11 +28,10 @@ export default class Dashboard extends React.Component {
 
   render() {
 
-    const Servers = FetchServers()
-
-    return  <Wrapper>
+    return  <main>
+              <Header/>
               <h1>Dashboard</h1>
-            </Wrapper>
+            </main>
 
   }
 

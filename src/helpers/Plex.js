@@ -50,20 +50,25 @@ module.exports = {
 
   },
 
-
   FetchServers: () => {
 
     const Request = require('request')
-    const Parser = require('xml-js')
 
-    Request({url: 'https://plex.tv/pms/servers.xml', qs: {'X-Plex-Token': localStorage.token}}, (err, res, body) => {
+    return new Promise((resolve, reject) => {
 
-      if(!err && res.statusCode === 200) {
+      Request({uri: 'https://plex.tv/pms/servers.xml', qs: {'X-Plex-Token': localStorage.token}}, (err, res, body) => {
 
-        let result = Parser.xml2js(body, {compact: true, spaces: 4})
-        console.log(result.MediaContainer.Server['_attributes'])
+        if(!err && res.statusCode === 200) {
 
-      }
+          resolve(body)
+
+        }else{
+
+          reject(err)
+
+        }
+
+      })
 
     })
 
