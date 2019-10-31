@@ -15,13 +15,13 @@ module.exports = {
 
       let response = JSON.parse(body)
 
-      if(!err && res.statusCode === 201) {
+      if(!err && !response.error && res.statusCode === 201) {
 
         if(success && typeof success === 'function') return success(response)
 
       }else{
 
-        if(error && typeof error === 'function') return error(err)
+        if(error && typeof error === 'function') return error(response.error)
 
       }
 
@@ -32,11 +32,11 @@ module.exports = {
 
   IsAuthenticated: () => {
 
+    const Request = require('request')
+
     let Authenticated = false
 
-    if(localStorage.uuid && localStorage.username && localStorage.email && localStorage.token) {
-
-      const Request = require('request')
+    if(localStorage.token) {
 
       Authenticated = Request({url: 'https://plex.tv/pms/servers.xml', qs: {'X-Plex-Token': localStorage.token}}, (err, res) => {
 
@@ -46,29 +46,46 @@ module.exports = {
 
     }
 
-    return Authenticated;
+    return Authenticated
 
   },
 
-  FetchServers: () => {
+  FetchServers: (callback) => {
 
     const Request = require('request')
+    const XML2JSON = require('xml2js').parseString
 
-    return new Promise((resolve, reject) => {
+    Request({uri: 'https://plex.tv/pms/servers.xml', qs: {'X-Plex-Token': localStorage.token}}, (err, res, body) => {
 
-      Request({uri: 'https://plex.tv/pms/servers.xml', qs: {'X-Plex-Token': localStorage.token}}, (err, res, body) => {
+      let Servers = []
 
-        if(!err && res.statusCode === 200) {
+      if(!err && res.statusCode === 200) {
 
-          resolve(body)
+        XML2JSON(body, (err, result) => {
 
-        }else{
+          if(Object.keys(result.MediaContainer.Server).length) {
 
-          reject(err)
+            for(let key in result.MediaContainer.Server) {
 
-        }
+              let server = result.MediaContainer.Server[key].$
 
-      })
+              Servers.push({
+                key: key,
+                uuid: server.machineIdentifier,
+                name: server.name,
+                host: server.host,
+                port: server.port
+              })
+
+            }
+
+          }
+
+        })
+
+      }
+
+      return callback(Servers)
 
     })
 

@@ -6,10 +6,10 @@ import React from 'react'
 
 
 /**
- * Import Node Json DB.
+ * Import Firebase.
  */
 
-import Database from '../../database'
+import Firebase from '../../firebase'
 
 
 /**
@@ -48,15 +48,20 @@ export default class Login extends React.Component {
     const _this = this
 
     this.state = {}
+    this.state.message = ''
     this.state.username = ''
     this.state.password = ''
     this.state.authenticated = false
 
     this.state.onSuccess = (response) => { 
+
       _this.setState({ authenticated: true })
+      _this.setState({ message: `Successfully logged in as ${response.user.username}` })
+
       if(props.onSuccess && typeof props.onSuccess === 'function') {
         return props.onSuccess(response)
       }
+
     }
 
     this.loginHandler = this.loginHandler.bind(this)
@@ -71,21 +76,13 @@ export default class Login extends React.Component {
 
     Authenticate(this.state.username, this.state.password, (response) => {
 
-      const UsersDB = Database.child('users')
-
-      localStorage.setItem('uuid', response.user.uuid)
-      localStorage.setItem('username', response.user.username)
-      localStorage.setItem('email', response.user.email)
       localStorage.setItem('token', response.user.authToken)
 
-      UsersDB.push('test', (err) => {
-
-        if(err) throw err;
-        console.log('user asdded')
-
-      })
-
       _this.state.onSuccess(response)
+
+    }, (error) => {
+
+      _this.setState({ message: error })
 
     })
 
@@ -108,6 +105,7 @@ export default class Login extends React.Component {
                   value={this.state.password} 
                   onChange={(e) => { this.setState({ password: e.target.value }) }} />
                 <Button type="submit">Enter</Button>
+                <strong>{this.state.message}</strong>
               </form>
             </Wrapper>
 

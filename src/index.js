@@ -6,6 +6,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
+/**
+ * Import component dependencies.
+ */
+
+import Setup from './templates/Setup/Setup'
+import Authenticator from './templates/Authenticator/Authenticator'
+
+
+/**
+ * Import Firebase. 
+ */
+
+import Firebase from './firebase'
+
+
 /** 
  * Import universal styles.
  */
@@ -13,15 +28,16 @@ import ReactDOM from 'react-dom'
 import './universal.scss'
 
 
-/**
- * Import component dependencies.
- */
+Firebase.child('/config').once('value').then(results => {
 
-import Authenticator from './templates/Authenticator/Authenticator'
+  if(results.val()) {
 
+    ReactDOM.render(<Authenticator/>, document.getElementById('root'));
 
-/**
- * Render the React component.
- */
+  }else{
 
-ReactDOM.render(<Authenticator/>, document.getElementById('root'));
+    ReactDOM.render(<Setup/>, document.getElementById('root'));
+
+  }
+
+})

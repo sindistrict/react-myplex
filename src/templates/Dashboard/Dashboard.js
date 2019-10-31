@@ -9,8 +9,15 @@ import React from 'react'
  * Import component dependencies.
  */
 
-import Wrapper from '../../components/Wrapper/Wrapper'
+import ButtonFetchServers from '../../components/Button_FetchServers/Button_FetchServers'
 import Header from '../../templates/Globals/Header/Header'
+
+
+/**
+ * Import helper functions.
+ */
+
+import {FetchServers} from '../../helpers/Plex'
 
 
 /** 
@@ -26,11 +33,18 @@ import './Dashboard.scss'
 
 export default class Dashboard extends React.Component {
 
+  async FetchAllServers() {
+
+    const Servers = await FetchServers();
+
+  }
+
   render() {
 
     return  <main>
               <Header/>
               <h1>Dashboard</h1>
+              <ButtonFetchServers>Fetch Servers</ButtonFetchServers>
             </main>
 
   }

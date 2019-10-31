@@ -1,0 +1,65 @@
+@import '../../variables.scss';
+
+$selector: '.SD_Select';
+
+#{$selector} {
+  -webkit-appearance: none;
+  transition: border-color $theme-transition-timing $theme-transition-easing;
+  border: 2px solid $theme-element-border-color;
+  background-color: #FFFFFF;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding-right: 48px;
+  padding-left: 12px;
+  border-radius: 0;
+  font-size: 16px;
+  outline: none;
+  height: 48px;
+  margin: 0;
+  &_Wrapper,
+  &_Wrapper > * {
+    position: relative;
+    max-width: 100%;
+    float: left;
+    clear: both;
+  }
+  &_Wrapper,
+  &_Wrapper > #{$selector} {
+    width: 100%;
+  }
+  &_Wrapper > label {
+    transition: color $theme-transition-timing $theme-transition-easing;
+    color: darken($theme-element-border-color, 25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 11px;
+  }
+  &_Wrapper::after {
+    content: '\25BE';
+    pointer-events: none;
+    text-align: center;
+    position: absolute;
+    line-height: 48px;
+    font-size: 16px;
+    width: 48px;
+    right: 0;
+    top: 0;
+  }
+  &_Wrapper:focus-within {
+    > label {
+      color: $theme-element-border-color-active;
+    }
+    > #{$selector} {
+      border-color: $theme-element-border-color-active;
+    }
+  }
+  &[type="password"] {
+    letter-spacing: 2px;
+  }
+  &[disabled] {
+    background-color: #EFEFEF;
+    border-color: #CACACA;
+    cursor: not-allowed;
+  }
+}

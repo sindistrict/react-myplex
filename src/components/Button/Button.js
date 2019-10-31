@@ -31,17 +31,9 @@ export default class Button extends React.Component {
 
     this.state = {}
     this.state.id = props.id || `SD_Button_${RandomID()}`
-    this.state.type = props.type || 'button'
     this.state.size = props.size || 'normal'
     this.state.variant = props.variant || 'primary'
-    this.state.disabled = props.disabled || false
     this.state.className = props.className || ''
-
-    this.state.onClick = (event) => {
-      if(props.onClick && typeof props.onClick === 'function') {
-        return props.onClick(event)
-      }
-    }
 
   }
 
@@ -49,10 +41,10 @@ export default class Button extends React.Component {
 
     return  <button 
             id={this.state.id}
-            type={this.state.type} 
+            type={this.props.type || 'button'} 
             className={"SD_Button size-" + this.state.size + " variant-" + this.state.variant + " " + this.state.className} 
-            disabled={this.state.disabled}
-            onClick={this.state.onClick}>
+            disabled={this.props.disabled || false}
+            onClick={this.props.onClick}> 
               {this.props.children}
             </button>
 
