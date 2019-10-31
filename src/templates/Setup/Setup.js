@@ -11,10 +11,8 @@ import { withAxios } from 'react-axios'
  */
 
 import Login from '../Login/Login'
-import FetchServers from '../../components/FetchServers/FetchServers'
-import Button from '../../components/Button/Button'
-
-import {Input} from '../../components/Elements/Forms'
+import {Wrapper} from '../../components/Elements/Helpers'
+// import FetchServers from '../../components/FetchServers/FetchServers'
 
 
 /** 
@@ -33,31 +31,35 @@ export default class Setup extends React.Component {
   constructor(props) {
 
     super(props)
-    this.state = {value: 'null'}
+
+    this.state = { step: 1, authToken: localStorage.authToken || null }
 
   }
 
-  selectTrigger = (e) => {
+  loginHandler = (response) => {
 
-    this.setState({ value: e.target.value })
-    if(this.props.onChange) this.props.onChange(e)
+    if(response.success) {
 
-  }
+      this.setState({ authToken: localStorage.authToken })
 
-  formSubmit = (e) => {
-
-    e.preventDefault()
-    console.log(this.state.value)
+    }
 
   }
 
   render() {
 
-    return <form onSubmit={this.formSubmit}>
-             <FetchServers onChange={this.selectTrigger}/>
-             <Button type="submit" disabled={this.state.value === 'null'}>Select Server</Button>
-             <Input label="Hello World" onChange={(e) => console.log(e.target.value)}/>
-           </form>
+    if(!this.state.authToken) {
+
+      return <Wrapper>
+               <h1>Setup: Step {this.state.step}</h1>
+               <Login onSubmit={this.loginHandler}/>
+             </Wrapper>
+
+    }else{
+
+      return <h1>Logged in - do other stuff</h1>
+
+    }
 
   }
 

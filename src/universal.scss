@@ -1,8 +1,18 @@
 @import './variables.scss';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $theme-font-family;
+  font-size: $theme-font-size;
+}
+
 body {
   background-color: $theme-background-color;
-  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   margin: 0;
 }

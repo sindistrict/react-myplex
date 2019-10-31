@@ -3,29 +3,19 @@
  */
 
 import React from 'react'
+import Axios from 'axios'
 
-
-/**
- * Import Firebase.
- */
-
-import Firebase from '../../firebase'
 
 
 /**
  * Import component dependencies.
  */
 
-import Wrapper from '../../components/Wrapper/Wrapper'
-import FormField from '../../components/FormField/FormField'
 import Button from '../../components/Button/Button'
 
+import {Form, Input} from '../../components/Elements/Forms'
+import {Grid, Column} from '../../components/Elements/Grids'
 
-/**
- * Import helper functions.
- */
-
-import {Authenticate} from '../../helpers/Plex'
 
 
 /** 
@@ -33,6 +23,7 @@ import {Authenticate} from '../../helpers/Plex'
  */
 
 import './Login.scss'
+
 
 
 /**
@@ -45,44 +36,39 @@ export default class Login extends React.Component {
 
     super(props)
 
-    const _this = this
-
-    this.state = {}
-    this.state.message = ''
-    this.state.username = ''
-    this.state.password = ''
-    this.state.authenticated = false
-
-    this.state.onSuccess = (response) => { 
-
-      _this.setState({ authenticated: true })
-      _this.setState({ message: `Successfully logged in as ${response.user.username}` })
-
-      if(props.onSuccess && typeof props.onSuccess === 'function') {
-        return props.onSuccess(response)
-      }
-
-    }
-
-    this.loginHandler = this.loginHandler.bind(this)
+    this.state = { response: '' }
 
   }
 
-  loginHandler(event) {
+  formSubmit = (e, credentials) => {
 
     const _this = this
 
-    event.preventDefault();
+    _this.setState({ response: '' })
 
-    Authenticate(this.state.username, this.state.password, (response) => {
+    e.preventDefault()
 
-      localStorage.setItem('token', response.user.authToken)
+    Axios({
+      method: 'POST',
+      url: 'https://plex.tv/users/sign_in.json',
+      data: { user: credentials },
+      headers: { 'X-Plex-Client-Identifier': 'react-myplex' }
+    }).then(response => {
 
-      _this.state.onSuccess(response)
+      _this.setState({ response: "Success!" })
+      localStorage.setItem('authToken', response.data.user.authToken)
 
-    }, (error) => {
+      if(_this.props.onSubmit) return _this.props.onSubmit({
+        success: response.data.user
+      })
 
-      _this.setState({ message: error })
+    }).catch(error => {
+
+      _this.setState({ response: error.response.data.error })
+
+      if(_this.props.onSubmit) return _this.props.onSubmit({
+        error: error.response.data.error
+      })
 
     })
 
@@ -90,24 +76,16 @@ export default class Login extends React.Component {
 
   render() {
 
-    return  <Wrapper>
-              <form onSubmit={this.loginHandler}>
-                <FormField 
-                  type="text" 
-                  required={true} 
-                  label="Username" 
-                  value={this.state.username} 
-                  onChange={(e) => { this.setState({ username: e.target.value }) }} />
-                <FormField 
-                  type="password" 
-                  required={true} 
-                  label="Password" 
-                  value={this.state.password} 
-                  onChange={(e) => { this.setState({ password: e.target.value }) }} />
-                <Button type="submit">Enter</Button>
-                <strong>{this.state.message}</strong>
-              </form>
-            </Wrapper>
+    return <Grid justify="center">
+             <Column xs="12" sm="6">
+               <Form onSubmit={(e, credentials) => this.formSubmit(e, credentials)}>
+                 <Input name="login" label="Username"/>
+                 <Input name="password" label="Password" type="password"/>
+                 <p>{this.state.response}</p>
+                 <Button type="submit">Sign In</Button>
+               </Form>
+             </Column>
+           </Grid>
 
   }
 
