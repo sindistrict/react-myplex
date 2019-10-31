@@ -6,12 +6,19 @@ import React from 'react'
 
 
 /**
+ * Import Node Json DB.
+ */
+
+import Database from '../../database'
+
+
+/**
  * Import component dependencies.
  */
 
-import Wrapper from '../../modules/Wrapper/Wrapper'
-import FormField from '../../modules/FormField/FormField'
-import Button from '../../modules/Button/Button'
+import Wrapper from '../../components/Wrapper/Wrapper'
+import FormField from '../../components/FormField/FormField'
+import Button from '../../components/Button/Button'
 
 
 /**
@@ -58,16 +65,25 @@ export default class Login extends React.Component {
 
   loginHandler(event) {
 
-    event.preventDefault();
-
     const _this = this
 
+    event.preventDefault();
+
     Authenticate(this.state.username, this.state.password, (response) => {
+
+      const UsersDB = Database.child('users')
 
       localStorage.setItem('uuid', response.user.uuid)
       localStorage.setItem('username', response.user.username)
       localStorage.setItem('email', response.user.email)
       localStorage.setItem('token', response.user.authToken)
+
+      UsersDB.push('test', (err) => {
+
+        if(err) throw err;
+        console.log('user asdded')
+
+      })
 
       _this.state.onSuccess(response)
 

@@ -9,7 +9,7 @@ import React from 'react'
  * Import component dependencies.
  */
 
-import Wrapper from '../../../modules/Wrapper/Wrapper'
+import Wrapper from '../../../components/Wrapper/Wrapper'
 
 
 /** 
