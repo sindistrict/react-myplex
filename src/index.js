@@ -7,6 +7,13 @@ import ReactDOM from 'react-dom'
 
 
 /**
+ * Import Configuration.
+ */
+
+import Config from './config'
+
+
+/**
  * Import component dependencies.
  */
 
@@ -28,16 +35,24 @@ import Firebase from './firebase'
 import './universal.scss'
 
 
-Firebase.child('/config').once('value').then(results => {
+if(Config.Firebase && Object.keys(Config.Firebase).length) {
 
-  if(results.val()) {
+  Firebase.child('/config').once('value').then(results => {
 
-    ReactDOM.render(<Authenticator/>, document.getElementById('root'));
+    if(results.val()) {
+  
+      ReactDOM.render(<Authenticator/>, document.getElementById('root'));
+  
+    }else{
+  
+      ReactDOM.render(<Setup/>, document.getElementById('root'));
+  
+    }
+  
+  })
 
-  }else{
+}else{
 
-    ReactDOM.render(<Setup/>, document.getElementById('root'));
+  ReactDOM.render(<h1>Config Tutorial Goes Here</h1>, document.getElementById('root'));
 
-  }
-
-})
+}
