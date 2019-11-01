@@ -11,10 +11,10 @@ import Axios from 'axios'
  * Import component dependencies.
  */
 
-import Button from '../../components/Button/Button'
-
 import {Form, Input} from '../../components/Elements/Forms'
 import {Grid, Column} from '../../components/Elements/Grids'
+import {Notice} from '../../components/Elements/Alerts'
+import Button from '../../components/Elements/Buttons'
 
 
 
@@ -36,7 +36,7 @@ export default class Login extends React.Component {
 
     super(props)
 
-    this.state = { response: '' }
+    this.state = { response: false, state: 'pending' }
 
   }
 
@@ -44,7 +44,7 @@ export default class Login extends React.Component {
 
     const _this = this
 
-    _this.setState({ response: '' })
+    _this.setState({ response: false, state: 'loading' })
 
     e.preventDefault()
 
@@ -64,7 +64,7 @@ export default class Login extends React.Component {
 
     }).catch(error => {
 
-      _this.setState({ response: error.response.data.error })
+      _this.setState({ response: error.response.data.error, state: 'pending' })
 
       if(_this.props.onSubmit) return _this.props.onSubmit({
         error: error.response.data.error
@@ -81,8 +81,8 @@ export default class Login extends React.Component {
                <Form onSubmit={(e, credentials) => this.formSubmit(e, credentials)}>
                  <Input name="login" label="Username"/>
                  <Input name="password" label="Password" type="password"/>
-                 <p>{this.state.response}</p>
-                 <Button type="submit">Sign In</Button>
+                 {this.state.response && <Notice>{this.state.response}</Notice> }
+                 <Button type="submit" state={this.state.state}>Sign In</Button>
                </Form>
              </Column>
            </Grid>

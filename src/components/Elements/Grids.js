@@ -47,6 +47,8 @@ export class Grid extends React.Component {
 
     }
 
+    if(this.props.className) classes.push(this.props.className)
+
     return <div className={"grid " + classes.join(' ')}>
             {this.props.children}
            </div>
@@ -88,6 +90,8 @@ export class Column extends React.Component {
       if(prop !== 'children') classes.push(`${prop}-${this.props[prop]}`)
 
     }
+
+    if(this.props.className) classes.push(this.props.className)
 
     return <div className={"column " + classes.join(' ')}>
              <div className="column-inner">

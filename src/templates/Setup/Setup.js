@@ -57,7 +57,7 @@ export default class Setup extends React.Component {
 
     }else{
 
-      return <h1>Logged in - do other stuff</h1>
+      return <h1>Setup: Step 2</h1>
 
     }
 

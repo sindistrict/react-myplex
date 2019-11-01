@@ -40,7 +40,7 @@ export class Form extends React.Component {
 
     super(props)
     this.state = {}
-    this.state.id = props.id || RandomID()
+    this.state.id = props.id || "form-" + RandomID()
     this.state.submitted = false
 
   }
@@ -63,7 +63,7 @@ export class Form extends React.Component {
 
     return <div className="form-wrapper">
              <form
-               id={"form-" + this.state.id}
+               id={this.state.id}
                method={this.props.method || 'POST'}
                action={this.props.action || '/'}
                onSubmit={this.submitHandler}>
@@ -99,7 +99,7 @@ export class Input extends React.Component {
     this.state = {}
     this.state.value = props.value || ''
     this.state.disabled = props.disabled || false
-    this.state.id = props.id || RandomID()
+    this.state.id = props.id || "input-" + RandomID()
 
   }
 
@@ -114,9 +114,9 @@ export class Input extends React.Component {
 
     return <div className="input-wrapper">
             {this.props.label && 
-            <label htmlFor={"input-" + this.state.id}>{this.props.label}</label>}
+            <label htmlFor={this.state.id}>{this.props.label}</label>}
             <input 
-              id={"input-" + this.state.id}
+              id={this.state.id}
               name={this.props.name}
               value={this.state.value}
               type={this.props.type || 'text'}
@@ -152,7 +152,7 @@ export class Textarea extends React.Component {
     this.state = {}
     this.state.value = props.value || ''
     this.state.disabled = props.disabled || false
-    this.state.id = props.id || RandomID()
+    this.state.id = props.id || "textarea-" + RandomID()
 
   }
 
@@ -167,9 +167,9 @@ export class Textarea extends React.Component {
 
     return <div className="input-wrapper">
              {this.props.label &&
-             <label htmlFor={"textarea-" + this.state.id}>{this.props.label}</label> }
+             <label htmlFor={this.state.id}>{this.props.label}</label> }
              <textarea
-               id={"textarea-" + this.state.id}
+               id={this.state.id}
                name={this.props.name}
                value={this.state.value}
                required={this.props.required || false}
@@ -205,7 +205,7 @@ export class Select extends React.Component {
     this.state = {}
     this.state.value = props.value || ''
     this.state.disabled = props.disabled || false
-    this.state.id = props.id || RandomID()
+    this.state.id = props.id || "select-" + RandomID()
 
   }
 
@@ -220,9 +220,9 @@ export class Select extends React.Component {
 
     return <div className="input-wrapper">
              {this.props.label &&
-             <label htmlFor={"select-" + this.state.id}>{this.props.label}</label> }
+             <label htmlFor={this.state.id}>{this.props.label}</label> }
              <select
-               id={"select-" + this.state.id}
+               id={this.state.id}
                name={this.props.name}
                value={this.state.value}
                required={this.props.required || false}
